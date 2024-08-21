@@ -1,10 +1,21 @@
 ---
 import { Image } from 'astro:assets'
+import { getCollection } from 'astro:content'
 
 interface Props {
-	authors: string[]
+	authors_name: string[]
 }
-const { authors } = Astro.props
+const { authors_name } = Astro.props
+const authors_data = await getCollection('author')
+
+const authors_info = authors_name.map((author_name) => {
+	const author = authors_data.find((author) => author.data.name === author_name)
+	return {
+		name: author_name,
+		link: author ? `/author/${author.data.name}` : '/',
+		avator_link: author ? author.data.avatar : '/src/assets/authors/GDSC.png'
+	}
+})
 ---
 
 <div class='flex flex-col gap-2'>
@@ -12,17 +23,20 @@ const { authors } = Astro.props
 
 	<ul class='flex gap-3 text-black dark:text-white'>
 		{
-			authors.map((author) => (
+			authors_info.map((author_info) => (
 				<li>
-					<a href={`/author/${author}`}>
-						<Image
-							src={`/src/assets/authors/${author}.png`}
-							width={200}
-							height={200}
-							format='webp'
-							class='w-16 h-16 object-cover rounded-full'
-							alt={`img of ${author}`}
-						/>
+					<a href={author_info.link}>
+						<div class='flex flex-col items-center gap-1'>
+							<Image
+								src={author_info.avator_link}
+								width={200}
+								height={200}
+								format='webp'
+								class='w-14 h-14 object-cover rounded-full'
+								alt={`avatar of ${author_info.link}`}
+							/>
+							<span class='text-sm'>{author_info.name}</span>
+						</div>
 					</a>
 				</li>
 			))

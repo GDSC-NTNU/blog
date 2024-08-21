@@ -1,14 +1,5 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content'
-import BlogPost from '@/layouts/BlogPost'
-import Code from '@/components/mdx/Code'
-import ListRelatedPosts from '@/components/ListRelatedPosts'
-import Share from '@/components/Share'
-import AuthorIcon from '@/components/AuthorIcon'
-import TableOfContents from '@/components/TableOfContents'
-import SButton from '@/components/mdx/SButton'
-import Disqus from '@/components/Disqus'
-import { disqusConfig } from '@/data/disqus.config'
 import BaseLayout from '@/layouts/BaseLayout'
 
 export async function getStaticPaths() {
