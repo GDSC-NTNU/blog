@@ -1,0 +1,35 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content'
+import BlogPost from '@/layouts/BlogPost'
+import Code from '@/components/mdx/Code'
+import ListRelatedPosts from '@/components/ListRelatedPosts'
+import Share from '@/components/Share'
+import AuthorIcon from '@/components/AuthorIcon'
+import TableOfContents from '@/components/TableOfContents'
+import SButton from '@/components/mdx/SButton'
+import Disqus from '@/components/Disqus'
+import { disqusConfig } from '@/data/disqus.config'
+import BaseLayout from '@/layouts/BaseLayout'
+
+export async function getStaticPaths() {
+	const authors = await getCollection('author')
+
+	return authors.map((author) => ({
+		params: { slug: author.data.name },
+		props: author
+	}))
+}
+type Props = CollectionEntry<'author'>
+
+const { name, avatar, website } = Astro.props.data
+---
+
+<BaseLayout title={name}>
+	<div class='flex flex-col items-center gap-4'>
+		<div class='flex flex-col items-center gap-4'>
+			<img src={avatar} alt={`avatar of ${name}`} class='w-32 h-32 object-cover rounded-full' />
+			<h1 class='text-3xl font-bold'>{name}</h1>
+			<a href={website} class='text-blue-500 hover:underline'>{website}</a>
+		</div>
+	</div>
+</BaseLayout>

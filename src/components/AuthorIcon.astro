@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets'
+
+interface Props {
+	authors: string[]
+}
+const { authors } = Astro.props
+---
+
+<div class='flex flex-col gap-2'>
+	<span class='mb-1 font-bold text-2xl'>authors</span>
+
+	<ul class='flex gap-3 text-black dark:text-white'>
+		{
+			authors.map((author) => (
+				<li>
+					<a href={`/author/${author}`}>
+						<Image
+							src={`/src/assets/authors/${author}.png`}
+							width={200}
+							height={200}
+							format='webp'
+							class='w-16 h-16 object-cover rounded-full'
+							alt={`img of ${author}`}
+						/>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</div>
